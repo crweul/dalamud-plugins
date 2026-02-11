@@ -1,0 +1,60 @@
+name: Update repo stats
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Update repo.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 <<'EOF'
+          import json, re, requests, os
+          from datetime import datetime
+
+          token = os.getenv("GITHUB_TOKEN", "")
+          headers = {"Accept": "application/vnd.github+json"}
+          if token:
+              headers["Authorization"] = f"Bearer {token}"
+
+          def get_owner_repo(url):
+              m = re.search(r"github\.com/([^/]+)/([^/]+)$", url.strip("/"))
+              return m.groups() if m else (None, None)
+
+          def to_unix_timestamp(iso_str):
+              if not iso_str:
+                  return None
+              dt = datetime.strptime(iso_str, "%Y-%m-%dT%H:%M:%SZ")
+              return int(dt.timestamp())
+
+          with open("repo.json", "r") as f:
+              plugins = json.load(f)
+
+          output = []
+          for plugin in plugins:
+              repo_url = plugin.get("RepoUrl")
+              asset_name = plugin.get("AssetName")
+              if not repo_url or not asset_name:
+                  output.append(plugin)
+                  continue
+
+              owner, repo =
