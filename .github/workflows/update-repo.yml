@@ -1,4 +1,4 @@
-name: Update repo stats
+name: Update Repository
 
 on:
   schedule:
