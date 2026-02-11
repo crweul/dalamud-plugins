@@ -11,6 +11,8 @@
     "RepoUrl": "https://github.com/crweul/auto-status",
     "AssetName": "AutoStatus.zip",
     "DownloadCount": 0,
+    "DownloadLinkInstall": "https://github.com/crweul/auto-status/releases/latest/download/AutoStatus.zip",
+    "DownloadLinkUpdate": "https://github.com/crweul/auto-status/releases/latest/download/AutoStatus.zip",
     "LastUpdate": 1770817411,
     "Tags": [
       "utility",
