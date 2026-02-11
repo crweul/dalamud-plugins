@@ -10,6 +10,8 @@
     "AssemblyVersion": "1.0.0",
     "RepoUrl": "https://github.com/crweul/auto-status",
     "AssetName": "AutoStatus.zip",
+    "DownloadCount": 0,
+    "LastUpdate": 0,
     "Tags": ["utility", "status", "afk"]
   }
 ]

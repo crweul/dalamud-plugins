@@ -11,9 +11,13 @@ permissions:
 jobs:
   update-json:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -28,7 +32,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 <<'EOF'
-          import json, re, requests, os
+          import json
+          import os
+          import re
+          import requests
           from datetime import datetime
 
           token = os.getenv("GITHUB_TOKEN", "")
@@ -43,18 +50,71 @@ jobs:
           def to_unix_timestamp(iso_str):
               if not iso_str:
                   return None
-              dt = datetime.strptime(iso_str, "%Y-%m-%dT%H:%M:%SZ")
-              return int(dt.timestamp())
+              try:
+                  dt = datetime.strptime(iso_str, "%Y-%m-%dT%H:%M:%SZ")
+                  return int(dt.timestamp())
+              except Exception:
+                  return None
 
           with open("repo.json", "r") as f:
               plugins = json.load(f)
 
-          output = []
+          updated = False
           for plugin in plugins:
               repo_url = plugin.get("RepoUrl")
-              asset_name = plugin.get("AssetName")
-              if not repo_url or not asset_name:
-                  output.append(plugin)
+              if not repo_url:
+                  print(f"Skipping {plugin.get('InternalName')} - no RepoUrl")
                   continue
 
-              owner, repo =
+              owner, repo = get_owner_repo(repo_url)
+              if not owner or not repo:
+                  print(f"Skipping {plugin.get('InternalName')} - invalid RepoUrl: {repo_url}")
+                  continue
+
+              api_url = f"https://api.github.com/repos/{owner}/{repo}/releases?per_page=100"
+              print(f"Fetching releases for {plugin.get('InternalName')} ({api_url})")
+              resp = requests.get(api_url, headers=headers, timeout=20)
+              if resp.status_code != 200:
+                  print(f"Failed to fetch {api_url}: {resp.status_code}")
+                  continue
+
+              releases = resp.json()
+              if not isinstance(releases, list) or not releases:
+                  print(f"No releases for {plugin.get('InternalName')}")
+                  continue
+
+              total_downloads = sum(
+                  a.get("download_count", 0)
+                  for r in releases
+                  for a in r.get("assets", [])
+              )
+
+              last_updated_iso = max(
+                  (r.get("published_at") for r in releases if r.get("published_at")),
+                  default=None
+              )
+              last_updated_unix = to_unix_timestamp(last_updated_iso)
+
+              plugin["LastUpdate"] = last_updated_unix
+              plugin["DownloadCount"] = total_downloads
+              updated = True
+              print(f"Updated {plugin.get('InternalName')}: {total_downloads} downloads")
+
+          if updated:
+              with open("repo.json", "w") as f:
+                  json.dump(plugins, f, indent=2)
+                  f.write("\n")
+          else:
+              print("No updates to apply.")
+          EOF
+
+      - name: Commit
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add repo.json
+          git commit -m "Update repo stats" || echo "No changes to commit"
+
+      - name: Push changes
+        run: |
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
