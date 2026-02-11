@@ -1,0 +1,18 @@
+[
+  {
+    "Name": "Auto-Status",
+    "InternalName": "AutoStatus",
+    "Author": "crweul",
+    "Punchline": "Toggle /afk or any status when the game loses focus.",
+    "Description": "Sets your status to /afk or any status of choice when the game isn't the foreground window, and reverts it when the game regains focus. Commands: /autostatus, /aus.",
+    "ApplicableVersion": "any",
+    "DalamudApiLevel": 10,
+    "AssemblyVersion": "1.0.0",
+    "RepoUrl": "https://github.com/crweul/auto-status",
+    "DownloadCount": 0,
+    "LastUpdate": 0,
+    "DownloadLinkInstall": "https://github.com/crweul/auto-status/releases/download/v1.0/auto-status_v1.0.zip",
+    "DownloadLinkUpdate": "https://github.com/crweul/auto-status/releases/download/v1.0/auto-status_v1.0.zip",
+    "Tags": ["utility", "status", "afk"]
+  }
+]
