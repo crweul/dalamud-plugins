@@ -7,7 +7,7 @@
     "Description": "Sets your status to /afk or any status of choice when the game isn't the foreground window, and reverts it when the game regains focus. Commands: /autostatus, /aus.",
     "ApplicableVersion": "any",
     "DalamudApiLevel": 14,
-    "AssemblyVersion": "1.0.0",
+    "AssemblyVersion": "1.1.0",
     "RepoUrl": "https://github.com/crweul/auto-status",
     "AssetName": "latest.zip",
     "DownloadCount": 0,
