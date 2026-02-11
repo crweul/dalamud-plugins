@@ -1,6 +1,6 @@
 [
   {
-    "Name": "Auto-Status",
+    "Name": "Auto-status",
     "InternalName": "AutoStatus",
     "Author": "crweul",
     "Punchline": "Toggle /afk or any status when the game loses focus.",
@@ -9,10 +9,10 @@
     "DalamudApiLevel": 14,
     "AssemblyVersion": "1.0.0",
     "RepoUrl": "https://github.com/crweul/auto-status",
-    "AssetName": "AutoStatus.zip",
+    "AssetName": "latest.zip",
     "DownloadCount": 0,
-    "DownloadLinkInstall": "https://github.com/crweul/auto-status/releases/latest/download/AutoStatus.zip",
-    "DownloadLinkUpdate": "https://github.com/crweul/auto-status/releases/latest/download/AutoStatus.zip",
+    "DownloadLinkInstall": "https://github.com/crweul/auto-status/releases/latest/download/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/crweul/auto-status/releases/latest/download/latest.zip",
     "LastUpdate": 1770817411,
     "Tags": [
       "utility",
