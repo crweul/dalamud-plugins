@@ -9,10 +9,7 @@
     "DalamudApiLevel": 10,
     "AssemblyVersion": "1.0.0",
     "RepoUrl": "https://github.com/crweul/auto-status",
-    "DownloadCount": 0,
-    "LastUpdate": 0,
-    "DownloadLinkInstall": "https://github.com/crweul/auto-status/releases/download/v1.0/auto-status_v1.0.zip",
-    "DownloadLinkUpdate": "https://github.com/crweul/auto-status/releases/download/v1.0/auto-status_v1.0.zip",
+    "AssetName": "AutoStatus.zip",
     "Tags": ["utility", "status", "afk"]
   }
 ]
