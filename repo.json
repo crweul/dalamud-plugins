@@ -10,10 +10,10 @@
     "AssemblyVersion": "1.2.0",
     "RepoUrl": "https://github.com/crweul/auto-status",
     "AssetName": "latest.zip",
-    "DownloadCount": 0,
+    "DownloadCount": 7,
     "DownloadLinkInstall": "https://github.com/crweul/auto-status/releases/latest/download/latest.zip",
     "DownloadLinkUpdate": "https://github.com/crweul/auto-status/releases/latest/download/latest.zip",
-    "LastUpdate": 1770817411,
+    "LastUpdate": 1770848814,
     "Tags": [
       "utility",
       "status",
